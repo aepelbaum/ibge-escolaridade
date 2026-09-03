@@ -52,7 +52,7 @@ def montar_grafico(df: pd.DataFrame, titulo: str, nome_arquivo: str) -> None:
     plt.xticks(rotation=20, ha="right")
     plt.tight_layout()
     plt.savefig(nome_arquivo)
-    plt.show()
+    plt.close()
 
 
 def main():
