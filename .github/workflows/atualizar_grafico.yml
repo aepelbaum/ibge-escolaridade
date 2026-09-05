@@ -42,7 +42,7 @@ jobs:
           username: ${{ secrets.EMAIL_USUARIO }}
           password: ${{ secrets.EMAIL_SENHA_APP }}
           to: ${{ secrets.EMAIL_DESTINO }}
-          from: Pipeline IBGE Escolaridade
+          from: Pipeline IBGE Escolaridade <ale_epe@yahoo.com.br>
           subject: Grafico de Escolaridade Atualizado - Rio de Janeiro
           body: Segue em anexo o grafico atualizado de escolaridade do municipio do Rio de Janeiro, com dados do Censo 2022.
           attachments: grafico_escolaridade_rio.png
