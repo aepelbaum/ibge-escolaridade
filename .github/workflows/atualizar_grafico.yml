@@ -2,8 +2,8 @@ name: Atualizar gráfico de escolaridade
 
 on:
   schedule:
-    - cron: '0 6 1 * *'  # roda às 6h (UTC) do dia 1 de cada mês
-  workflow_dispatch:  # permite rodar manualmente também, pelo site do GitHub
+    - cron: '0 6 1 * *'
+  workflow_dispatch:
 
 jobs:
   atualizar:
@@ -31,5 +31,18 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add grafico_escolaridade_rio.png
-          git diff --staged --quiet || git commit -m "Atualiza gráfico automaticamente"
+          git diff --staged --quiet || git commit -m "Atualiza grafico automaticamente"
           git push
+
+      - name: Enviar o gráfico por e-mail
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.mail.yahoo.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USUARIO }}
+          password: ${{ secrets.EMAIL_SENHA_APP }}
+          to: ${{ secrets.EMAIL_DESTINO }}
+          from: Pipeline IBGE Escolaridade
+          subject: Grafico de Escolaridade Atualizado - Rio de Janeiro
+          body: Segue em anexo o grafico atualizado de escolaridade do municipio do Rio de Janeiro, com dados do Censo 2022.
+          attachments: grafico_escolaridade_rio.png
