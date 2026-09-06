@@ -21,16 +21,19 @@ jobs:
           python-version: '3.14'
 
       - name: Instalar as bibliotecas
-        run: pip install pandas matplotlib requests
+        run: pip install pandas matplotlib plotly requests
 
       - name: Rodar o pipeline
         run: python pipeline.py
+
+      - name: Rodar o grafico interativo
+        run: python grafico_interativo.py
 
       - name: Salvar o gráfico atualizado de volta no repositório
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add grafico_escolaridade_rio.png
+          git add grafico_escolaridade_rio.png grafico_interativo.html
           git diff --staged --quiet || git commit -m "Atualiza grafico automaticamente"
           git push
 
@@ -44,5 +47,9 @@ jobs:
           to: ${{ secrets.EMAIL_DESTINO }}
           from: ${{ secrets.EMAIL_REMETENTE }}
           subject: Grafico de Escolaridade Atualizado - Rio de Janeiro
-          body: Segue em anexo o grafico atualizado de escolaridade do municipio do Rio de Janeiro, com dados do Censo 2022.
+          body: |
+            Segue em anexo o grafico atualizado de escolaridade do municipio do Rio de Janeiro, com dados do Censo 2022:
+
+            Veja tambem a versao interativa, com filtro por municipio:
+            https://aepelbaum.github.io/ibge-escolaridade/grafico_interativo.html
           attachments: grafico_escolaridade_rio.png
